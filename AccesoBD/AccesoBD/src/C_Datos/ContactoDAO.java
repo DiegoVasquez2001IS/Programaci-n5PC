@@ -44,4 +44,35 @@ public class ContactoDAO extends Conexion{
         return contactos;
     }
     
+    //Método insertar datos
+    
+    public int insert (Contacto contacto){
+        Connection conexion=null;
+        PreparedStatement statement=null;
+        int rows=0;
+        
+        try{
+            conexion=Conexion.getConnection();
+            statement=conexion.prepareStatement(SQL_INSERT);
+            statement.setInt(1, contacto.getID());
+            statement.setString(2, contacto.getNombre());
+            statement.setString(3, contacto.getApellido1());
+            statement.setString(4, contacto.getApellido2());
+            statement.setInt(5, contacto.getTelFijo());
+            statement.setInt(6, contacto.getCelular());
+            statement.setString(7, contacto.getCorreo());
+            statement.setString(8, contacto.getDireccion());
+            statement.setInt(9, contacto.getEstatus());
+            System.out.println("Ejecutando consulta: "+SQL_INSERT);
+            rows=statement.executeUpdate();
+            System.out.println("Registros afectados: "+rows);
+            
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex);
+        }finally{
+            Conexion.close(statement);
+            Conexion.close(conexion);
+        }
+        return rows;
+    }
 }

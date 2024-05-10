@@ -44,7 +44,6 @@ public class main {
                    next_var=JOptionPane.showInputDialog(null, "¿Desea continuar? s/n").charAt(0);
                    break;
                default:
-                    
                     next_var=JOptionPane.showInputDialog(null, "¿Desea continuar? s/n").charAt(0);
                     break;
            }

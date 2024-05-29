@@ -11,7 +11,7 @@ public class ContactoDAO extends Conexion{
     private static final String SQL_SELECT="SELECT*FROM contacto";
     
     //Método para mostrar data
-    public List<Contacto> select(){
+    public List<Contacto> mostrar_data(){
         Connection conexion = null;
         PreparedStatement statement = null;
         ResultSet result_set = null;
@@ -46,7 +46,7 @@ public class ContactoDAO extends Conexion{
     
     //Método insertar datos
     
-    public int insert (Contacto contacto){
+    public int insertar (Contacto contacto){
         Connection conexion=null;
         PreparedStatement statement=null;
         int rows=0;

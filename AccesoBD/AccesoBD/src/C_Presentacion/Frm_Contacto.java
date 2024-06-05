@@ -5,7 +5,9 @@
 package C_Presentacion;
 import C_Datos.ContactoDAO;
 import C_Logica.Contacto;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -49,6 +51,9 @@ public class Frm_Contacto extends javax.swing.JFrame {
         combo_estatus = new javax.swing.JComboBox<>();
         btn_insertar = new javax.swing.JButton();
         btn_mostrar = new javax.swing.JButton();
+        btn_actualizar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_contacto = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mantenimiento Contactos");
@@ -84,6 +89,18 @@ public class Frm_Contacto extends javax.swing.JFrame {
         });
 
         btn_mostrar.setText("Mostrar Data");
+        btn_mostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_mostrarActionPerformed(evt);
+            }
+        });
+
+        btn_actualizar.setText("Actualizar");
+        btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_actualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -123,7 +140,9 @@ public class Frm_Contacto extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(btn_insertar)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_mostrar))))
+                                        .addComponent(btn_mostrar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn_actualizar))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(46, 46, 46)
                                 .addComponent(jLabel2)
@@ -161,9 +180,39 @@ public class Frm_Contacto extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(combo_estatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_insertar)
-                    .addComponent(btn_mostrar))
+                    .addComponent(btn_mostrar)
+                    .addComponent(btn_actualizar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        tbl_contacto.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Apellido 1", "Apellido 2", "Teléfono", "Celular", "Correo", "Dirección", "Estatus"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, true, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tbl_contacto);
+        if (tbl_contacto.getColumnModel().getColumnCount() > 0) {
+            tbl_contacto.getColumnModel().getColumn(0).setResizable(false);
+            tbl_contacto.getColumnModel().getColumn(1).setResizable(false);
+            tbl_contacto.getColumnModel().getColumn(2).setResizable(false);
+            tbl_contacto.getColumnModel().getColumn(3).setResizable(false);
+            tbl_contacto.getColumnModel().getColumn(4).setResizable(false);
+            tbl_contacto.getColumnModel().getColumn(5).setResizable(false);
+            tbl_contacto.getColumnModel().getColumn(6).setResizable(false);
+            tbl_contacto.getColumnModel().getColumn(7).setResizable(false);
+            tbl_contacto.getColumnModel().getColumn(8).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,7 +220,9 @@ public class Frm_Contacto extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -179,7 +230,9 @@ public class Frm_Contacto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(350, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -223,6 +276,46 @@ public class Frm_Contacto extends javax.swing.JFrame {
         txt_nombre.requestFocus();
     }//GEN-LAST:event_btn_insertarActionPerformed
 
+    private void btn_mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mostrarActionPerformed
+        try{
+            DefaultTableModel modelo_tbl = new DefaultTableModel();
+            modelo_tbl.addColumn("ID");
+            modelo_tbl.addColumn("Nombre");
+            modelo_tbl.addColumn("Apellido 1");
+            modelo_tbl.addColumn("Apellido 2");
+            modelo_tbl.addColumn("Teléfono");
+            modelo_tbl.addColumn("Celular");
+            modelo_tbl.addColumn("Correo");
+            modelo_tbl.addColumn("Dirección");
+            modelo_tbl.addColumn("Estatus");
+           
+            ContactoDAO data_contacto = new ContactoDAO();
+            List<Contacto> contacto = data_contacto.mostrar_data();
+            tbl_contacto.setModel(modelo_tbl);
+            Object[] tabla = new Object[9];
+            for(int i=0; i<contacto.size(); i++){
+                tabla[0]=contacto.get(i).getID();
+                tabla[1]=contacto.get(i).getNombre();
+                tabla[2]=contacto.get(i).getApellido1();
+                tabla[3]=contacto.get(i).getApellido2();
+                tabla[4]=contacto.get(i).getTelFijo();
+                tabla[5]=contacto.get(i).getCelular();
+                tabla[6]=contacto.get(i).getCorreo();
+                tabla[7]=contacto.get(i).getDireccion();
+                tabla[8]=contacto.get(i).getEstatus();
+                modelo_tbl.addRow(tabla);
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        
+        
+    }//GEN-LAST:event_btn_mostrarActionPerformed
+
+    private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
+        
+    }//GEN-LAST:event_btn_actualizarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -259,6 +352,7 @@ public class Frm_Contacto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_insertar;
     private javax.swing.JButton btn_mostrar;
     private javax.swing.JComboBox<String> combo_estatus;
@@ -271,6 +365,8 @@ public class Frm_Contacto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbl_contacto;
     private javax.swing.JTextField txt_ap1;
     private javax.swing.JTextField txt_ap2;
     private javax.swing.JTextField txt_celular;

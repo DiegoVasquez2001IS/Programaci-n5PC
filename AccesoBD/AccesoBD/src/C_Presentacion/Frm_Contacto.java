@@ -194,11 +194,17 @@ public class Frm_Contacto extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true, true, false, true
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tbl_contacto.getTableHeader().setReorderingAllowed(false);
+        tbl_contacto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_contactoMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tbl_contacto);
@@ -253,9 +259,9 @@ public class Frm_Contacto extends javax.swing.JFrame {
         obj_contacto.setDireccion(txt_direccion.getText());
         
         int estatus=0;
-        if(combo_estatus.equals("Activo")){
+        if(combo_estatus.getSelectedIndex()==0){
             estatus=1;
-        }else if(combo_estatus.equals("Inactivo")){
+        }else{
             estatus=0;
         }
         obj_contacto.setEstatus(estatus);
@@ -315,6 +321,24 @@ public class Frm_Contacto extends javax.swing.JFrame {
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
         
     }//GEN-LAST:event_btn_actualizarActionPerformed
+
+    private void tbl_contactoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_contactoMouseClicked
+       int fila_select=0;
+       fila_select=tbl_contacto.getSelectedRow();
+       txt_nombre.setText(tbl_contacto.getValueAt(fila_select, 1).toString());
+       txt_ap1.setText(tbl_contacto.getValueAt(fila_select, 2).toString());
+       txt_ap2.setText(tbl_contacto.getValueAt(fila_select, 3).toString());
+       txt_telfijo.setText(tbl_contacto.getValueAt(fila_select, 4).toString());
+       txt_celular.setText(tbl_contacto.getValueAt(fila_select, 5).toString());
+       txt_correo.setText(tbl_contacto.getValueAt(fila_select, 6).toString());
+       txt_direccion.setText(tbl_contacto.getValueAt(fila_select, 7).toString());
+       
+       if(Integer.parseInt(tbl_contacto.getValueAt(fila_select, 8).toString())==1){
+           combo_estatus.setSelectedIndex(0);
+       }else{
+           combo_estatus.setSelectedIndex(1);
+       }
+    }//GEN-LAST:event_tbl_contactoMouseClicked
 
     /**
      * @param args the command line arguments
